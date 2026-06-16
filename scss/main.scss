@@ -59,8 +59,10 @@ p{
 .image-card{
     position: relative;
     &:hover {
-        .titre-image{
+        .titre-image,
+        .action-image-buttons{
             opacity: 1;
+
         }
         img{
            filter: brightness(0.3);
@@ -79,7 +81,17 @@ p{
         transition: all 0.3s;
     }
     .action-image-buttons{
-        background-color: red;
+        position: absolute;
+        width: 100%;
+        top: 0px;
+        left:0;
+        padding: 5px;
+        display: flex;
+        justify-content: space-between;
+      
+        opacity: 0;
+        transition: all 0.3s;
+      
     }
 
 }
