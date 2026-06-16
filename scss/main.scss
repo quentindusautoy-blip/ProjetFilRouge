@@ -12,6 +12,7 @@ main{
 
 footer.footer{
     padding : 15px;
+    margin-top: auto;
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -76,6 +77,9 @@ p{
         transform: translate(-50%, -50%);
         opacity: 0;
         transition: all 0.3s;
+    }
+    .action-image-buttons{
+        background-color: red;
     }
 
 }
