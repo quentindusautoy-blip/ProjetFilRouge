@@ -18,7 +18,7 @@
                 <img src="../Images/imageProduitFrais.jpg" class="rounded w-100" alt="table en soirée"/>
                 <p class="titre-image">Table du Soir</p>
                 <div class="action-image-buttons">
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-outline-light edit-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
                     <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#DeletePhotoModal"><i class="bi bi-trash"></i></button>
                 </div>
             </div>
@@ -28,8 +28,8 @@
                 <img src="../Images/picturexphotobnb-barista-5055060_1920.jpg" class="rounded w-100" alt="mixologie de cafe avec un barista"/>
                 <p class="titre-image">Barista Coktail </p>
                 <div class="action-image-buttons">
-                    <button type="button" class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-outline-light"><i class="bi bi-trash"></i></button>
+                    <button type="button" class="btn btn-outline-light edit-btn"data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#DeletePhotoModal"><i class="bi bi-trash"></i></button>
                 </div>
             </div>
         </div>
@@ -38,8 +38,8 @@
                 <img src="../Images/LeChef.png" class="rounded w-100" alt="le Chef"/>
                 <p class="titre-image">Le Chef</p>
                 <div class="action-image-buttons">
-                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-outline-light"><i class="bi bi-trash"></i></button>
+                    <button type="button" class="btn btn-outline-light edit-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#DeletePhotoModal"><i class="bi bi-trash"></i></button>
                 </div>
             </div>
         </div>
@@ -48,8 +48,8 @@
                 <img src="../Images/escargot.jpg" class="rounded w-100" alt="cuisson de nos escargots"/>
                 <p class="titre-image">Escargots</p>
                 <div class="action-image-buttons">
-                    <button type="button" class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-outline-light"><i class="bi bi-trash"></i></button>
+                    <button type="button" class="btn btn-outline-light edit-btn"data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#DeletePhotoModal"><i class="bi bi-trash"></i></button>
                 </div>
             </div>
         </div>
@@ -58,8 +58,8 @@
                 <img src="../Images/Bigtitle.jpg" class="rounded w-100" alt="table en journée"/>
                 <p class="titre-image">Table du jour</p>
                 <div class="action-image-buttons">
-                    <button type="button" class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-outline-light"><i class="bi bi-trash"></i></button>
+                    <button type="button" class="btn btn-outline-light edit-btn"data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#DeletePhotoModal"><i class="bi bi-trash"></i></button>
                 </div>
             </div>
         </div>
@@ -68,8 +68,8 @@
                 <img src="../Images/table quai antique.png" class="rounded w-100" alt="table avec une magnifique vue"/>
                 <p class="titre-image">Notre vue</p>
                 <div class="action-image-buttons">
-                    <button type="button" class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-outline-light"><i class="bi bi-trash"></i></button>
+                    <button type="button" class="btn btn-outline-light edit-btn"data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#DeletePhotoModal"><i class="bi bi-trash"></i></button>
                 </div>
             </div>
         </div>
@@ -112,15 +112,15 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title" id="DeletePhotoModal">Etes vous sur de vouloir supprimer cette photo ?</h2>
+        <h2 class="modal-title" id="DeletePhotoModalLabel">Etes vous sur de vouloir supprimer cette photo ?</h2>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
        <form>
         <div class="mb-3">
-          <p>Titre</p>
-          <img src="../Images/imageProduitFrais.jpg"class="rounded w-100">
-        </div>
+            <p id="modalTitlePreview"></p>
+            <img id="modalImagePreview" class="rounded w-100">
+    </div>
         <div class="text-center">
             <button type="button" class="btn btn-danger">Supprimer</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
@@ -131,3 +131,4 @@
     </div>
   </div>
 </div>
+
