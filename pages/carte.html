@@ -9,22 +9,21 @@
 
     <div>
         <div>
-            <h2 class="text-center text-primary text-decoration-underline">Entrées</h2><br/>
+                <h2 class="text-center text-primary text-decoration-underline">Entrées</h2>
+                <br/>
+                <h3 class="text-center">Escargots de Bourgogne en cocotte</h3>
+                <p class="text-center">Beurre persillé aux herbes de montagne, éclats de noisettes torréfiées et émulsion au vin blanc de Savoie</p>    
+            
 
-            <h3 class="text-center">Escargots de Bourgogne en cocotte</h3>
-            <p class="text-center">Beurre persillé aux herbes de montagne, éclats de noisettes torréfiées et émulsion au vin blanc de Savoie</p>    
-            <br/>
-            <h3 class="text-center">Velouté de potimarron des Alpes</h3>
-            <p class="text-center">Crème légère fumée, copeaux de tome de Savoie et huile de noisette</p>    
-            <br/>
-            <h3 class="text-center">Truite des lacs savoyards gravlax</h3>
-            <p class="text-center">Betterave rôtie, pickles d’oignons rouges et crème citronnée aux baies roses</p>
+                <h3 class="text-center">Velouté de potimarron des Alpes</h3>
+                <p class="text-center">Crème légère fumée, copeaux de tome de Savoie et huile de noisette</p> 
 
+            
+                <h3 class="text-center">Truite des lacs savoyards gravlax</h3>
+                <p class="text-center">Betterave rôtie, pickles d’oignons rouges et crème citronnée aux baies roses</p>
+            
         </div>
-        <div class="container text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8"/>
-                </svg>
-        </div>
+
         <br/>
         <div>
             <h2 class="text-center text-primary text-decoration-underline">Plats</h2><br/>
@@ -55,9 +54,8 @@
             <h3 class="text-center">Poire pochée aux épices</h3>
             <p class="text-center">Mousse légère au miel de montagne et éclats d’amandes caramélisées</p>    
         </div>
-     
     </div>
-    <br/>
+    
     <article class="bg-black text-white pb-4 w-100">
         <div class="container pt-4">
             <div class="row">
@@ -106,7 +104,34 @@
         </div>
     </article>
 
+<!-- Modal Edition-->
+<div class="modal fade" id="modEntrée" tabindex="-1" aria-labelledby="modEntréeLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modEntrée">Edition Entrées</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <form>
+            <div class="mb-3">
+            <label for="NameInput" class="form-label text-primary">Nom de l'entrée</label>
+            <input type="text" class="form-control" id="EntreeInput" placeholder="Nom de l'entrée"> 
+            </div>
 
+            <div class="mb-3">
+            <label for="NameInput" class="form-label text-secondary">Nom du plat</label>
+            <input type="text" class="form-control" id="Input" placeholder="Nom du plat"> 
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-primary">Enregistrer</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
