@@ -9,7 +9,7 @@
 <div class="container p-4">
 
     <div class="text-center">
-        <button class="btn btn-primary">Ajouter une photo</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Ajouter une photo</button>
     </div>
 
     <div class="row row-cols-2 row-cols-lg-3">
@@ -18,8 +18,8 @@
                 <img src="../Images/imageProduitFrais.jpg" class="rounded w-100" alt="table en soirée"/>
                 <p class="titre-image">Table du Soir</p>
                 <div class="action-image-buttons">
-                    <button type="button" class="btn btn-outline-light"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-outline-light"><i class="bi bi-trash"></i></button>
+                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#DeletePhotoModal"><i class="bi bi-trash"></i></button>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
                 <img src="../Images/picturexphotobnb-barista-5055060_1920.jpg" class="rounded w-100" alt="mixologie de cafe avec un barista"/>
                 <p class="titre-image">Barista Coktail </p>
                 <div class="action-image-buttons">
-                    <button type="button" class="btn btn-outline-light"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
                     <button type="button" class="btn btn-outline-light"><i class="bi bi-trash"></i></button>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                 <img src="../Images/LeChef.png" class="rounded w-100" alt="le Chef"/>
                 <p class="titre-image">Le Chef</p>
                 <div class="action-image-buttons">
-                    <button type="button" class="btn btn-outline-light"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
                     <button type="button" class="btn btn-outline-light"><i class="bi bi-trash"></i></button>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 <img src="../Images/escargot.jpg" class="rounded w-100" alt="cuisson de nos escargots"/>
                 <p class="titre-image">Escargots</p>
                 <div class="action-image-buttons">
-                    <button type="button" class="btn btn-outline-light"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
                     <button type="button" class="btn btn-outline-light"><i class="bi bi-trash"></i></button>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                 <img src="../Images/Bigtitle.jpg" class="rounded w-100" alt="table en journée"/>
                 <p class="titre-image">Table du jour</p>
                 <div class="action-image-buttons">
-                    <button type="button" class="btn btn-outline-light"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
                     <button type="button" class="btn btn-outline-light"><i class="bi bi-trash"></i></button>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                 <img src="../Images/table quai antique.png" class="rounded w-100" alt="table avec une magnifique vue"/>
                 <p class="titre-image">Notre vue</p>
                 <div class="action-image-buttons">
-                    <button type="button" class="btn btn-outline-light"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-outline-light"data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-square"></i></button>
                     <button type="button" class="btn btn-outline-light"><i class="bi bi-trash"></i></button>
                 </div>
             </div>
@@ -80,3 +80,54 @@
     </div>
 </div>
 
+<!-- Modal Edition-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="exampleModalLabel">Edition photo</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <form>
+        <div class="mb-3">
+          <label for="NamePhotoInput" class="form-label text-primary">Titre</label>
+          <input type="text" class="form-control" id="NamePhotoInput" placeholder="Nom du plat" name="Email"> 
+        </div>
+         <div class="mb-3">
+                  <label for="ImageInput" class="form-label">Image</label>
+                  <input type="file" class="form-control" id="ImageInput"  name="Image">
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary">Enregistrer</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Suppression-->
+<div class="modal fade" id="DeletePhotoModal" tabindex="-1" aria-labelledby="DeletePhotoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="DeletePhotoModal">Etes vous sur de vouloir supprimer cette photo ?</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <form>
+        <div class="mb-3">
+          <p>Titre</p>
+          <img src="../Images/imageProduitFrais.jpg"class="rounded w-100">
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-danger">Supprimer</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+</div>
