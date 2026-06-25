@@ -116,9 +116,21 @@ function InscrireUtilisateur(){
         redirect: "follow"
     };
 
-    fetch("http://127.0.0.1:8001/api/registration", requestOptions)
-        .then((response) => response.json())
-        .then((result) => console.log(result))
+    fetch(apiUrl+"registration", requestOptions)
+        .then(response => {
+            if(response.ok){
+                return response.json();
+            }
+            else{
+                alert("Erreur lors de l'inscription");
+            }
+        })
+
+        .then(result => { 
+            alert("Bravo, "+dataForm.get("Prenom")+", vous etes maintenant inscrit, vous pouvez vous connecter");
+            document.location.href="/signin";
+        })
+
         .catch((error) => console.error(error));
 
 }
