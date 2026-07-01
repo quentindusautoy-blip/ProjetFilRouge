@@ -16,16 +16,16 @@ const getRouteByUrl = (url) => {
   });
 
   // Si aucune correspondance n'est trouvée, on retourne la route 404
-  if (currentRoute != null) {
-    return currentRoute;
-  } else {
+  if (currentRoute == null) {
     return route404;
+  } else {
+    return currentRoute;
   }
 };
 
 // Fonction pour charger le contenu de la page
 const LoadContentPage = async () => {
-  const path = window.location.pathname;
+  const path = globalThis.location.pathname;
 
   // Récupération de l'URL actuelle
   const actualRoute = getRouteByUrl(path);
@@ -36,13 +36,13 @@ const allRolesArray = actualRoute.authorize;
   if(allRolesArray.length > 0){
     if(allRolesArray.includes("disconnected")){
       if(isConnected()){
-        window.location.replace("/");
+        globalThis.location.replace("/");
       }
     }
     else{
       const roleUser = getRole();
       if(!allRolesArray.includes(roleUser)){
-        window.location.replace("/");
+        globalThis.location.replace("/");
 
       }
     }
@@ -59,7 +59,7 @@ const allRolesArray = actualRoute.authorize;
   if (actualRoute.pathJS != "") {
 
     // Création d'une balise script
-    var scriptTag = document.createElement("script");
+    let scriptTag = document.createElement("script");
     scriptTag.setAttribute("type", "text/javascript");
     scriptTag.setAttribute("src", actualRoute.pathJS);
 
@@ -82,17 +82,17 @@ const routeEvent = (event) => {
   event.preventDefault();
 
   // Mise à jour de l'URL dans l'historique du navigateur
-  window.history.pushState({}, "", event.currentTarget.href);
+  globalThis.history.pushState({}, "", event.currentTarget.href);
 
   // Chargement du contenu de la nouvelle page
   LoadContentPage();
 };
 
 // Gestion de l'événement de retour en arrière dans l'historique du navigateur
-window.onpopstate = LoadContentPage;
+globalThis.onpopstate = LoadContentPage;
 
 // Assignation de la fonction routeEvent à la propriété route de la fenêtre
-window.route = routeEvent;
+globalThis.route = routeEvent;
 
 // Chargement du contenu de la page au chargement initial
 LoadContentPage();

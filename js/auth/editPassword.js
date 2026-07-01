@@ -23,6 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     cancelBtn.addEventListener("click", () => {
-        window.location.href = "/account";
+        globalThis.location.href = "/account";
     });
 });

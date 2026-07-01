@@ -45,7 +45,7 @@ function checkCredentials(){
         // Placer ce token en cookie
 
         setCookie(RoleCookieName, result.roles[0], 7);
-        window.location.replace("/");
+        globalThis.location.replace("/");
         })
 
         .catch((error) => console.error(error));
