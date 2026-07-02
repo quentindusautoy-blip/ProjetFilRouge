@@ -1,4 +1,4 @@
-alert("Image sélectionnée !");
+
 
 const galerieImages = document.getElementById("allImages");
 
