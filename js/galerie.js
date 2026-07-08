@@ -5,7 +5,7 @@ const galerieImages = document.getElementById("allImages");
 //Recuperer les informations des images
 
 let titre = "Titre de l'image";
-let imgSource = "./images/Bigtitle.jpg";
+let imgSource = "./Images/Bigtitle.jpg";
 
 let monImage = getImage(titre, imgSource);
 
