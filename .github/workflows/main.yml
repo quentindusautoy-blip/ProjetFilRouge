@@ -1,0 +1,33 @@
+on: push
+
+name: 🚀 Deploy website on push
+
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v5
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ftp-lequaiantique.alwaysdata.net
+          username: lequaiantique
+          password: ${{ secrets.ftp_password }}
+          protocol: ftps-legacy
+          port: 990
+          server-dir: /www/
+          timeout: 120000
+          log-level: verbose
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/node_modules/**
+            **/scss/**
+            **/sass/** 
+        
