@@ -12,6 +12,14 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v5
 
+      - name: 📂 Install dependencies
+        uses: actions/setup-node@v4
+        with:
+            node-version: 24
+        
+      - name: 📂 Install npm dependencies
+        run: npm install
+
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
