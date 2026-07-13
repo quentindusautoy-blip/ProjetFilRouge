@@ -3,7 +3,9 @@ const RoleCookieName = "role";
 const signoutBtn = document.getElementById("signout-btn");
 const apiUrl = "http://127.0.0.1:8000/api/";
 
-signoutBtn.addEventListener("click", signout);
+if (signoutBtn) {
+    signoutBtn.addEventListener("click", signout);
+}
 
 
 function getRole(){
@@ -49,13 +51,10 @@ function eraseCookie(name) {
     document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
-function isConnected(){
-    if(getToken() == null || getToken == undefined){
-        return false;
-    }
-    else{
-        return true;
-    }
+function isConnected() {
+    const token = getToken();
+
+    return token !== null && token !== undefined && token !== "";
 }
 
 
