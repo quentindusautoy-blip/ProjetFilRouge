@@ -12,10 +12,27 @@ function getRole(){
     return getCookie(RoleCookieName);
 }
 
-function signout(){
-    eraseCookie(tokenCookieName);
-    eraseCookie( RoleCookieName);
-    globalThis.location.reload();
+async function signout(event) {
+    event?.preventDefault();
+
+    const token = getToken();
+
+    try {
+        if (token) {
+            await fetch(apiUrl + "logout", {
+                method: "POST",
+                headers: {
+                    "X-AUTH-TOKEN": token
+                }
+            });
+        }
+    } catch (error) {
+        console.error("Erreur pendant la déconnexion :", error);
+    } finally {
+        eraseCookie(tokenCookieName);
+        eraseCookie(RoleCookieName);
+        globalThis.location.replace("/");
+    }
 }
 
 function setToken (token){
