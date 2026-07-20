@@ -29,7 +29,7 @@ async function loadPictures() {
         const pictures = await response.json();
 
         if (!Array.isArray(pictures)) {
-            throw new Error("Le format de la réponse est invalide.");
+            throw new TypeError("Le format de la réponse est invalide.");
         }
 
         galerieImages.replaceChildren();
@@ -84,7 +84,7 @@ function createPictureCard(picture) {
     editButton.className = "btn btn-outline-light edit-btn";
     editButton.dataset.pictureId = picture.id;
     editButton.dataset.bsToggle = "modal";
-    editButton.dataset.bsTarget = "#exampleModal";
+    editButton.dataset.bsTarget = "#pictureModal";
     editButton.setAttribute(
         "aria-label",
         `Modifier l’image ${picture.title || ""}`
@@ -99,7 +99,7 @@ function createPictureCard(picture) {
     deleteButton.className = "btn btn-outline-light";
     deleteButton.dataset.pictureId = picture.id;
     deleteButton.dataset.bsToggle = "modal";
-    deleteButton.dataset.bsTarget = "#DeletePhotoModal";
+    deleteButton.dataset.bsTarget = "#deletePictureModal";
     deleteButton.setAttribute(
         "aria-label",
         `Supprimer l’image ${picture.title || ""}`
