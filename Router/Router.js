@@ -1,98 +1,365 @@
 import Route from "./Route.js";
 import { allRoutes, websiteName } from "./allRoutes.js";
 
-// Création d'une route pour la page 404 (page introuvable)
-const route404 = new Route("404", "Page introuvable", "./pages/404.html", []);
+// Route utilisée lorsqu’aucune adresse ne correspond.
+const route404 = new Route(
+  "/404",
+  "Page introuvable",
+  "/pages/404.html",
+  []
+);
 
-// Fonction pour récupérer la route correspondant à une URL donnée
+let currentPageScript = null;
+let currentLoadingId = 0;
+
+/**
+ * Uniformise les chemins.
+ *
+ * Exemple :
+ * /galerie/ devient /galerie
+ */
+const normalizePath = (path) => {
+  if (!path || path === "/") {
+    return "/";
+  }
+
+  return path.replace(/\/+$/, "");
+};
+
+/**
+ * Recherche une route à partir de son URL.
+ */
 const getRouteByUrl = (url) => {
-  let currentRoute = null;
+  const normalizedUrl = normalizePath(url);
 
-  // Parcours de toutes les routes pour trouver la correspondance
-  allRoutes.forEach((element) => {
-    if (element.url == url) {
-      currentRoute = element;
-    }
+  const selectedRoute = allRoutes.find(
+    (routeElement) =>
+      normalizePath(routeElement.url) === normalizedUrl
+  );
+
+  return selectedRoute || route404;
+};
+
+/**
+ * Vérifie si l’utilisateur peut accéder à la route.
+ */
+const userCanAccessRoute = (actualRoute) => {
+  const authorizedRoles = Array.isArray(actualRoute.authorize)
+    ? actualRoute.authorize
+    : [];
+
+  // Route publique.
+  if (authorizedRoles.length === 0) {
+    return true;
+  }
+
+  const connected =
+    typeof globalThis.isConnected === "function"
+      ? globalThis.isConnected()
+      : false;
+
+  // Pages réservées aux utilisateurs déconnectés.
+  if (authorizedRoles.includes("disconnected")) {
+    return !connected;
+  }
+
+  const userRole =
+    typeof globalThis.getRole === "function"
+      ? globalThis.getRole()
+      : null;
+
+  return authorizedRoles.includes(userRole);
+};
+
+/**
+ * Redirige vers l’accueil sans recharger complètement le site.
+ */
+const redirectToHome = async () => {
+  globalThis.history.replaceState({}, "", "/");
+  await LoadContentPage();
+};
+
+/**
+ * Supprime l’ancien JavaScript de page et charge le nouveau.
+ */
+const loadPageScript = (scriptPath) => {
+  if (currentPageScript) {
+    currentPageScript.remove();
+    currentPageScript = null;
+  }
+
+  if (!scriptPath) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve) => {
+    const scriptTag = document.createElement("script");
+
+    scriptTag.type = "text/javascript";
+    scriptTag.src = scriptPath;
+    scriptTag.dataset.pageScript = "true";
+
+    scriptTag.addEventListener("load", () => {
+      resolve();
+    });
+
+    scriptTag.addEventListener("error", () => {
+      console.error(
+        `Impossible de charger le fichier JavaScript : ${scriptPath}`
+      );
+
+      resolve();
+    });
+
+    currentPageScript = scriptTag;
+    document.body.appendChild(scriptTag);
   });
+};
 
-  // Si aucune correspondance n'est trouvée, on retourne la route 404
-  if (currentRoute == null) {
-    return route404;
-  } else {
-    return currentRoute;
+/**
+ * Affiche ou masque les éléments selon le rôle connecté.
+ */
+const updateElementsForRoles = () => {
+  if (
+    typeof globalThis.showAndhideElementsForRoles === "function"
+  ) {
+    globalThis.showAndhideElementsForRoles();
   }
 };
 
-// Fonction pour charger le contenu de la page
+/**
+ * Affiche une erreur directement dans la zone principale.
+ */
+const displayLoadingError = (message) => {
+  const mainPage = document.getElementById("main-page");
+
+  if (!mainPage) {
+    console.error(
+      'L’élément avec l’identifiant "main-page" est introuvable.'
+    );
+    return;
+  }
+
+  mainPage.replaceChildren();
+
+  const container = document.createElement("div");
+  container.className = "container py-5 text-center";
+
+  const title = document.createElement("h1");
+  title.className = "h3";
+  title.textContent = "Une erreur est survenue";
+
+  const paragraph = document.createElement("p");
+  paragraph.textContent = message;
+
+  const homeLink = document.createElement("a");
+  homeLink.href = "/";
+  homeLink.className = "btn btn-primary";
+  homeLink.textContent = "Retour à l’accueil";
+
+  container.append(title, paragraph, homeLink);
+  mainPage.appendChild(container);
+};
+
+/**
+ * Charge le contenu HTML et JavaScript correspondant à l’URL.
+ */
 const LoadContentPage = async () => {
-  const path = globalThis.location.pathname;
+  const loadingId = ++currentLoadingId;
 
-  // Récupération de l'URL actuelle
-  const actualRoute = getRouteByUrl(path);
+  const currentPath = normalizePath(
+    globalThis.location.pathname
+  );
 
-  // Verifier les Droits d'acces a la page
-const allRolesArray = actualRoute.authorize;
+  const actualRoute = getRouteByUrl(currentPath);
 
-  if(allRolesArray.length > 0){
-    if(allRolesArray.includes("disconnected")){
-      if(isConnected()){
-        globalThis.location.replace("/");
-      }
-    }
-    else{
-      const roleUser = getRole();
-      if(!allRolesArray.includes(roleUser)){
-        globalThis.location.replace("/");
-
-      }
-    }
+  // Vérification des droits d’accès.
+  if (!userCanAccessRoute(actualRoute)) {
+    await redirectToHome();
+    return;
   }
 
-  // Récupération du contenu HTML de la route
-  const html = await fetch(actualRoute.pathHtml).then((data) => data.text());
+  const mainPage = document.getElementById("main-page");
 
-  // Ajout du contenu HTML à l'élément avec l'ID "main-page"
-  document.getElementById("main-page").innerHTML = html;
-
-
-  // Ajout du contenu JavaScript
-  if (actualRoute.pathJS != "") {
-
-    // Création d'une balise script
-    let scriptTag = document.createElement("script");
-    scriptTag.setAttribute("type", "text/javascript");
-    scriptTag.setAttribute("src", actualRoute.pathJS);
-
-    // Ajout de la balise script au corps du document
-    document.querySelector("body").appendChild(scriptTag);
-
+  if (!mainPage) {
+    console.error(
+      'L’élément avec l’identifiant "main-page" est introuvable.'
+    );
+    return;
   }
 
-  // Changement du titre de la page
-  document.title = actualRoute.title + " - " + websiteName;
+  try {
+    const response = await fetch(actualRoute.pathHtml, {
+      cache: "no-store",
+    });
 
+    if (!response.ok) {
+      throw new Error(
+        `Erreur HTTP ${response.status} pour ${actualRoute.pathHtml}`
+      );
+    }
 
-  //Afficher et masquer les elements en fonction de leur role
-  showAndhideElementsForRoles();
+    const html = await response.text();
+
+    // Ignore la réponse si une autre page a été demandée entre-temps.
+    if (loadingId !== currentLoadingId) {
+      return;
+    }
+
+    mainPage.innerHTML = html;
+
+    document.title =
+      `${actualRoute.title} - ${websiteName}`;
+
+    await loadPageScript(actualRoute.pathJS);
+
+    updateElementsForRoles();
+
+    globalThis.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+  } catch (error) {
+    console.error(
+      "Impossible de charger la page :",
+      error
+    );
+
+    displayLoadingError(
+      "La page demandée n’a pas pu être chargée."
+    );
+
+    document.title =
+      `Erreur - ${websiteName}`;
+  }
 };
 
-// Fonction pour gérer les événements de routage (clic sur les liens)
+/**
+ * Navigue vers une route sans rechargement complet.
+ */
+const navigateTo = async (url, replaceHistory = false) => {
+  const destination = new URL(
+    url,
+    globalThis.location.origin
+  );
+
+  // Les liens externes restent gérés normalement.
+  if (destination.origin !== globalThis.location.origin) {
+    globalThis.location.href = destination.href;
+    return;
+  }
+
+  const destinationUrl =
+    destination.pathname +
+    destination.search +
+    destination.hash;
+
+  if (replaceHistory) {
+    globalThis.history.replaceState(
+      {},
+      "",
+      destinationUrl
+    );
+  } else {
+    globalThis.history.pushState(
+      {},
+      "",
+      destinationUrl
+    );
+  }
+
+  await LoadContentPage();
+};
+
+/**
+ * Fonction utilisable avec onclick="route(event)".
+ */
 const routeEvent = (event) => {
-  event = event || window.event;
+  event = event || globalThis.event;
+
+  if (!event) {
+    return;
+  }
+
   event.preventDefault();
 
-  // Mise à jour de l'URL dans l'historique du navigateur
-  globalThis.history.pushState({}, "", event.currentTarget.href);
+  const link = event.currentTarget;
 
-  // Chargement du contenu de la nouvelle page
-  LoadContentPage();
+  if (!link?.href) {
+    return;
+  }
+
+  navigateTo(link.href);
 };
 
-// Gestion de l'événement de retour en arrière dans l'historique du navigateur
-globalThis.onpopstate = LoadContentPage;
+/**
+ * Intercepte automatiquement tous les liens internes.
+ */
+document.addEventListener("click", (event) => {
+  if (
+    event.defaultPrevented ||
+    event.button !== 0 ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.shiftKey ||
+    event.altKey
+  ) {
+    return;
+  }
 
-// Assignation de la fonction routeEvent à la propriété route de la fenêtre
+  const link = event.target.closest("a[href]");
+
+  if (!link) {
+    return;
+  }
+
+  if (
+    link.target === "_blank" ||
+    link.hasAttribute("download") ||
+    Object.hasOwn(link.dataset, "noRouter")
+  ) {
+    return;
+  }
+
+  const rawHref = link.getAttribute("href");
+
+  if (
+    !rawHref ||
+    rawHref.startsWith("#") ||
+    rawHref.startsWith("mailto:") ||
+    rawHref.startsWith("tel:") ||
+    rawHref.startsWith("javascript:")
+  ) {
+    return;
+  }
+
+  const destination = new URL(
+    link.href,
+    globalThis.location.origin
+  );
+
+  if (
+    destination.origin !== globalThis.location.origin
+  ) {
+    return;
+  }
+
+  event.preventDefault();
+  navigateTo(destination.href);
+});
+
+/**
+ * Gestion des boutons précédent et suivant du navigateur.
+ */
+globalThis.addEventListener("popstate", () => {
+  LoadContentPage();
+});
+
+// Fonctions rendues accessibles aux autres fichiers JavaScript.
 globalThis.route = routeEvent;
+globalThis.navigateTo = navigateTo;
+globalThis.LoadContentPage = LoadContentPage;
 
-// Chargement du contenu de la page au chargement initial
+// Chargement initial.
 LoadContentPage();

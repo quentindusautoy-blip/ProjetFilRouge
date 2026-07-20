@@ -1,62 +1,112 @@
 <div class="hero-scene text-center text-white">
     <div class="hero-scene-content">
-        <h1>Ma réservation</h1> 
+        <h1>Ma réservation</h1>
     </div>
 </div>
 
 <div class="container p-4">
-    <form>
+    <form id="bookingForm">
+        <div id="bookingMessage" class="alert d-none" role="alert"></div>
+
         <div class="mb-3">
             <label for="NomInput" class="form-label">Nom</label>
-            <input disabled type="text" class="form-control" id="NomInput" placeholder="Votre nom" value="Bento" name="Nom"> 
+            <input disabled type="text" class="form-control" id="NomInput">
         </div>
+
         <div class="mb-3">
             <label for="PrenomInput" class="form-label">Prénom</label>
-            <input disabled type="text" class="form-control" id="PrenomInput" placeholder="Votre prénom" value="Charlotte" name="Prenom"> 
+            <input disabled type="text" class="form-control" id="PrenomInput">
         </div>
+
         <div class="mb-3">
-          <label for="AllergieInput" class="form-label">Allergies</label>
-          <input  type="text" class="form-control" id="AllergieInput" placeholder="Vos allergies (fruits de mer, arachides…)"  value="Cacahouetes" name="Allergies">  
+            <label for="AllergieInput" class="form-label">Allergies</label>
+            <input
+                type="text"
+                class="form-control"
+                id="AllergieInput"
+                maxlength="255"
+                placeholder="Fruits de mer, arachides…"
+            >
         </div>
+
         <div class="mb-3">
-            <label for="NbConvivesInput" class="form-label">Nombres de convives habituel</label>
-            <input  type="number" class="form-control" id="NbConvivesInput" placeholder="Combien vous êtes habituellement ?"  value="4" name="NbConvives"> 
+            <label for="NbConvivesInput" class="form-label">
+                Nombre de convives
+            </label>
+
+            <input
+                type="number"
+                class="form-control"
+                id="NbConvivesInput"
+                min="1"
+                max="50"
+                value="1"
+                required
+            >
         </div>
+
         <div class="mb-3">
             <label for="DateInput" class="form-label">Date</label>
-            <input  type="date" class="form-control" id="DateInput" value="4"> 
+            <input
+                type="date"
+                class="form-control"
+                id="DateInput"
+                required
+            >
         </div>
+
         <div class="mb-3">
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="serviceChoisi" id="midiRadio">
+                <input
+                    class="form-check-input"
+                    type="radio"
+                    name="serviceChoisi"
+                    id="midiRadio"
+                    value="midi"
+                    checked
+                >
+
                 <label class="form-check-label" for="midiRadio">
                     Midi
                 </label>
             </div>
+
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="serviceChoisi" id="soirRadio" checked>
+                <input
+                    class="form-check-input"
+                    type="radio"
+                    name="serviceChoisi"
+                    id="soirRadio"
+                    value="soir"
+                >
+
                 <label class="form-check-label" for="soirRadio">
                     Soir
                 </label>
             </div>
         </div>
+
         <div class="mb-3">
             <label for="selectHour" class="form-label">Heure</label>
-                <select class="form-select" id="selectHour">
-                    <option selected>19:30</option>
-                    <option selected>19:45</option>
-                    <option selected>20:00</option>
-                    <option selected>20:15</option>
-                    <option selected>20:30</option>
-                    <option selected>20:45</option>
-                    <option selected>21:00</option>
-                    <option selected>21:15</option>
-                </select>
+            <select
+                class="form-select"
+                id="selectHour"
+                required
+            ></select>
         </div>
 
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">Réserver</button>
-            <button type="button" class="btn btn-danger">Annuler</button>
+            <button
+                type="submit"
+                id="submitBookingButton"
+                class="btn btn-primary"
+            >
+                Réserver
+            </button>
+
+            <a href="/allResa" class="btn btn-secondary">
+                Annuler
+            </a>
         </div>
     </form>
 </div>
