@@ -93,6 +93,9 @@ function createPictureCard(picture) {
     const editIcon = document.createElement("i");
     editIcon.className = "bi bi-pencil-square";
     editButton.appendChild(editIcon);
+    editButton.addEventListener("click", () => {
+    prepareEditPictureForm(picture);
+    });
 
     const deleteButton = document.createElement("button");
     deleteButton.type = "button";
@@ -174,26 +177,67 @@ if (openCreatePictureModal) {
 }
 
 if (pictureForm) {
-    pictureForm.addEventListener("submit", createPicture);
+    pictureForm.addEventListener(
+        "submit",
+        handlePictureFormSubmit
+    );
 }
 
-function prepareCreatePictureForm() {
-    pictureForm.reset();
+    function prepareCreatePictureForm() {
+        pictureForm.reset();
 
-    pictureIdInput.value = "";
-    picturePositionInput.value = "0";
-    picturePublishedInput.checked = true;
-    pictureFileInput.required = true;
-    pictureFileContainer.classList.remove("d-none");
+        pictureIdInput.value = "";
+        picturePositionInput.value = "0";
+        picturePublishedInput.checked = true;
+        pictureFileInput.required = true;
+        pictureFileContainer.classList.remove("d-none");
+        
+        pictureModalLabel.textContent = "Ajouter une photo";
+        savePictureButton.textContent = "Enregistrer";
 
-    pictureModalLabel.textContent = "Ajouter une photo";
-    savePictureButton.textContent = "Enregistrer";
-
-    hidePictureFormMessage();
+        hidePictureFormMessage();
 }
 
-async function createPicture(event) {
-    event.preventDefault();
+    function prepareEditPictureForm(picture) {
+        pictureForm.reset();
+
+        pictureIdInput.value = String(picture.id);
+        pictureTitleInput.value = picture.title || "";
+        pictureAltTextInput.value = picture.altText || "";
+        picturePositionInput.value = String(
+            picture.position ?? 0
+        );
+        picturePublishedInput.checked =
+            picture.isPublished === true;
+
+        pictureFileInput.required = false;
+        pictureFileInput.value = "";
+        pictureFileContainer.classList.add("d-none");
+
+        pictureModalLabel.textContent =
+            "Modifier une photo";
+
+        savePictureButton.textContent =
+            "Enregistrer les modifications";
+
+        hidePictureFormMessage();
+}
+
+    async function handlePictureFormSubmit(event) {
+        event.preventDefault();
+
+        const pictureId = Number(pictureIdInput.value);
+
+        if (Number.isInteger(pictureId) && pictureId > 0) {
+            await updatePicture(pictureId);
+            return;
+        }
+
+        await createPicture();
+    }
+
+async function createPicture() {
+   
 
     const token = getToken();
 
@@ -296,6 +340,103 @@ async function createPicture(event) {
     }
 }
 
+async function updatePicture(pictureId) {
+    const token = getToken();
+    const title = pictureTitleInput.value.trim();
+    const position = Number(
+        picturePositionInput.value
+    );
+
+    if (!token) {
+        showPictureFormMessage(
+            "Vous devez être connecté comme administrateur.",
+            true
+        );
+        return;
+    }
+
+    if (title === "") {
+        showPictureFormMessage(
+            "Le titre est obligatoire.",
+            true
+        );
+        return;
+    }
+
+    if (
+        !Number.isInteger(position) ||
+        position < 0
+    ) {
+        showPictureFormMessage(
+            "La position doit être un entier positif ou nul.",
+            true
+        );
+        return;
+    }
+
+    const body = {
+        title,
+        altText: pictureAltTextInput.value.trim(),
+        position,
+        isPublished: picturePublishedInput.checked,
+    };
+
+    savePictureButton.disabled = true;
+    savePictureButton.textContent = "Modification...";
+
+    hidePictureFormMessage();
+
+    try {
+        const response = await fetch(
+            `${API_PICTURES_URL}/${pictureId}`,
+            {
+                method: "PATCH",
+                headers: {
+                    "X-AUTH-TOKEN": token,
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body),
+            }
+        );
+
+        const result = await readApiResponse(response);
+
+        if (!response.ok) {
+            throw new Error(
+                result.message ||
+                `Erreur HTTP ${response.status}`
+            );
+        }
+
+        const modalElement =
+            document.getElementById("pictureModal");
+
+        bootstrap.Modal
+            .getOrCreateInstance(modalElement)
+            .hide();
+
+        pictureForm.reset();
+        pictureIdInput.value = "";
+
+        await loadPictures();
+    } catch (error) {
+        console.error(
+            "Erreur pendant la modification de l’image :",
+            error
+        );
+
+        showPictureFormMessage(
+            error.message ||
+            "Impossible de modifier l’image.",
+            true
+        );
+    } finally {
+        savePictureButton.disabled = false;
+        savePictureButton.textContent = "Enregistrer";
+    }
+}
+
 async function readApiResponse(response) {
     const contentType =
         response.headers.get("content-type") || "";
@@ -306,6 +447,7 @@ async function readApiResponse(response) {
 
     return {};
 }
+
 
 function showPictureFormMessage(message, isError = false) {
     pictureFormMessage.textContent = message;
