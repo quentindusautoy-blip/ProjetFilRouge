@@ -1,0 +1,168 @@
+<div class="hero-scene text-center text-white">
+    <div class="hero-scene-content">
+        <h1>Gestion des réservations</h1>
+    </div>
+</div>
+
+<div class="container py-4" id="adminBookingsPage">
+    <div
+        id="adminBookingsMessage"
+        class="alert d-none"
+        role="alert"
+    ></div>
+
+    <form
+        id="adminBookingsFilterForm"
+        class="row g-3 align-items-end mb-4"
+    >
+        <div class="col-md-6">
+            <label
+                for="adminBookingDate"
+                class="form-label"
+            >
+                Date des réservations
+            </label>
+
+            <input
+                type="date"
+                id="adminBookingDate"
+                class="form-control"
+                required
+            >
+        </div>
+
+        <div class="col-md-6">
+            <button
+                type="submit"
+                id="adminBookingsSearchButton"
+                class="btn btn-primary"
+            >
+                Afficher les réservations
+            </button>
+        </div>
+    </form>
+
+    <section class="mb-4">
+        <h2 class="h4">
+            Résumé du
+            <span id="adminSelectedDate">—</span>
+        </h2>
+
+        <p class="mb-3">
+            Restaurant :
+            <strong id="adminRestaurantName">
+                Le Quai Antique
+            </strong>
+        </p>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="border rounded p-3 h-100 text-center">
+                    <h3 class="h6">Réservations</h3>
+                    <p
+                        id="adminBookingCount"
+                        class="fs-3 mb-0"
+                    >
+                        0
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="border rounded p-3 h-100 text-center">
+                    <h3 class="h6">Total des convives</h3>
+                    <p
+                        id="adminTotalGuests"
+                        class="fs-3 mb-0"
+                    >
+                        0
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="border rounded p-3 h-100 text-center">
+                    <h3 class="h6">Capacité maximale</h3>
+                    <p
+                        id="adminMaximumCapacity"
+                        class="fs-3 mb-0"
+                    >
+                        0
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="border rounded p-3 h-100">
+                    <h3 class="h5">Service du midi</h3>
+
+                    <p class="mb-1">
+                        Convives réservés :
+                        <strong id="adminLunchGuests">0</strong>
+                    </p>
+
+                    <p class="mb-0">
+                        Places restantes :
+                        <strong id="adminLunchRemaining">0</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="border rounded p-3 h-100">
+                    <h3 class="h5">Service du soir</h3>
+
+                    <p class="mb-1">
+                        Convives réservés :
+                        <strong id="adminDinnerGuests">0</strong>
+                    </p>
+
+                    <p class="mb-0">
+                        Places restantes :
+                        <strong id="adminDinnerRemaining">0</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="h4 mb-3">
+            Liste des réservations
+        </h2>
+
+        <div
+            id="adminBookingsLoading"
+            class="text-center py-4 d-none"
+        >
+            Chargement des réservations...
+        </div>
+
+        <div
+            id="adminBookingsEmpty"
+            class="alert alert-info d-none"
+        >
+            Aucune réservation pour cette date.
+        </div>
+
+        <div
+            id="adminBookingsTableContainer"
+            class="table-responsive d-none"
+        >
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Heure</th>
+                        <th scope="col">Client</th>
+                        <th scope="col">Adresse e-mail</th>
+                        <th scope="col">Convives</th>
+                        <th scope="col">Allergies</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="adminBookingsTableBody"></tbody>
+            </table>
+        </div>
+    </section>
+</div>
