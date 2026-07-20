@@ -83,37 +83,51 @@ Connected (admin ou client)
     -client
 */
 
-function showAndhideElementsForRoles(){
+function showAndhideElementsForRoles(rootElement = document) {
     const userConnected = isConnected();
     const role = getRole();
 
-    let allElementsToEdit = document.querySelectorAll('[data-show]');
+    const elementsToEdit =
+        rootElement.querySelectorAll("[data-show]");
 
-    allElementsToEdit.forEach(element=>{
-        switch(element.dataset.show){
-            case 'disconnected':
-                if(userConnected){
-                    element.classList.add("d-none"); 
-                }
+    elementsToEdit.forEach((element) => {
+        const requiredRole = element.dataset.show;
+        let shouldShow = true;
+
+        switch (requiredRole) {
+            case "disconnected":
+                shouldShow = !userConnected;
                 break;
-            case 'connected':
-                if(!userConnected){
-                    element.classList.add("d-none"); 
-                }
+
+            case "connected":
+                shouldShow = userConnected;
                 break;
-            case 'admin':
-                if(!userConnected || role !="admin"){
-                    element.classList.add("d-none"); 
-                }
+
+            case "admin":
+                shouldShow =
+                    userConnected && role === "admin";
                 break;
-            case 'client':
-                if(!userConnected || role !="client"){
-                    element.classList.add("d-none"); 
-                }
-                break;        
+
+            case "client":
+                shouldShow =
+                    userConnected && role === "client";
+                break;
+
+            default:
+                shouldShow = true;
         }
-    })
+
+        element.classList.toggle(
+            "d-none",
+            !shouldShow
+        );
+    });
 }
+
+// Rend la fonction utilisable par les scripts
+// chargés dynamiquement par le routeur.
+globalThis.showAndhideElementsForRoles =
+    showAndhideElementsForRoles;
 
 function sanitizeHtml(text) {
     const tempHtml = document.createElement('div');
