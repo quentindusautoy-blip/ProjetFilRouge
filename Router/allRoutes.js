@@ -28,6 +28,8 @@ export const allRoutes = [
 
     new Route("/admin/menus","Gestion des menus","/pages/admin/menus.html",["admin"],"/js/admin/menus.js"),
 
+    new Route("/admin/categories","Gestion des catégories","/pages/admin/categories.html",["admin"],"/js/admin/categories.js"),
+
 ];
 
 // Le titre s'affiche sous la forme : titre de la route - nom du site

@@ -1,0 +1,180 @@
+<div class="hero-scene text-center text-white">
+    <div class="hero-scene-content">
+        <h1>Gestion des catégories</h1>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div
+        id="categoryAdminMessage"
+        class="alert d-none"
+        role="alert"
+    ></div>
+
+    <section class="border rounded p-4 mb-5">
+        <h2
+            id="categoryFormTitle"
+            class="text-center text-primary mb-4"
+        >
+            Ajouter une catégorie
+        </h2>
+
+        <form id="categoryAdminForm">
+            <input
+                type="hidden"
+                id="categoryIdInput"
+            >
+
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <label
+                        for="categoryNameInput"
+                        class="form-label"
+                    >
+                        Nom de la catégorie
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="categoryNameInput"
+                        minlength="2"
+                        maxlength="64"
+                        required
+                    >
+                </div>
+
+                <div class="col-md-4">
+                    <label
+                        for="categoryPositionInput"
+                        class="form-label"
+                    >
+                        Position
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="categoryPositionInput"
+                        min="1"
+                        max="1000"
+                        required
+                    >
+
+                    <div class="form-text">
+                        Les catégories sont affichées par ordre croissant.
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label
+                        for="categoryDescriptionInput"
+                        class="form-label"
+                    >
+                        Description
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        id="categoryDescriptionInput"
+                        rows="3"
+                        maxlength="2000"
+                    ></textarea>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button
+                    type="submit"
+                    id="categorySubmitButton"
+                    class="btn btn-primary"
+                >
+                    Ajouter la catégorie
+                </button>
+
+                <button
+                    type="button"
+                    id="categoryCancelEditButton"
+                    class="btn btn-secondary d-none"
+                >
+                    Annuler la modification
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <section>
+        <div
+            class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3"
+        >
+            <h2 class="text-primary mb-0">
+                Catégories enregistrées
+            </h2>
+
+            <button
+                type="button"
+                id="categoryRefreshButton"
+                class="btn btn-outline-primary"
+            >
+                Actualiser
+            </button>
+        </div>
+
+        <div
+            id="categoryLoading"
+            class="text-center py-5"
+        >
+            <div
+                class="spinner-border text-primary"
+                role="status"
+            >
+                <span class="visually-hidden">
+                    Chargement...
+                </span>
+            </div>
+        </div>
+
+        <div
+            id="categoryTableContainer"
+            class="table-responsive d-none"
+        >
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            Position
+                        </th>
+
+                        <th scope="col">
+                            Nom
+                        </th>
+
+                        <th scope="col">
+                            Description
+                        </th>
+
+                        <th scope="col">
+                            Nombre de plats
+                        </th>
+
+                        <th
+                            scope="col"
+                            class="text-end"
+                        >
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody id="categoryTableBody"></tbody>
+            </table>
+        </div>
+
+        <p
+            id="categoryEmptyMessage"
+            class="text-center text-muted d-none"
+        >
+            Aucune catégorie n’est enregistrée.
+        </p>
+    </section>
+</div>
