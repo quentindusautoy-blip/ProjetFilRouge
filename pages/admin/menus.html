@@ -1,0 +1,189 @@
+<div class="hero-scene text-center text-white">
+    <div class="hero-scene-content">
+        <h1>Gestion des menus</h1>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div
+        id="menuAdminMessage"
+        class="alert d-none"
+        role="alert"
+    ></div>
+
+    <section class="border rounded p-4 mb-5">
+        <h2
+            id="menuFormTitle"
+            class="text-center text-primary mb-4"
+        >
+            Ajouter un menu
+        </h2>
+
+        <form id="menuAdminForm">
+            <input
+                type="hidden"
+                id="menuIdInput"
+            >
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label
+                        for="menuNameInput"
+                        class="form-label"
+                    >
+                        Nom du menu
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="menuNameInput"
+                        minlength="2"
+                        maxlength="100"
+                        required
+                    >
+                </div>
+
+                <div class="col-md-6">
+                    <label
+                        for="menuPriceInput"
+                        class="form-label"
+                    >
+                        Prix
+                    </label>
+
+                    <div class="input-group">
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="menuPriceInput"
+                            min="0.01"
+                            max="9999.99"
+                            step="0.01"
+                            required
+                        >
+
+                        <span class="input-group-text">
+                            €
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label
+                        for="menuDescriptionInput"
+                        class="form-label"
+                    >
+                        Description
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        id="menuDescriptionInput"
+                        rows="3"
+                        maxlength="2000"
+                    ></textarea>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="menuActiveInput"
+                            checked
+                        >
+
+                        <label
+                            class="form-check-label"
+                            for="menuActiveInput"
+                        >
+                            Menu visible sur la carte
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <fieldset class="border rounded p-3 mt-4">
+                <legend class="float-none w-auto px-2 h5">
+                    Plats composant le menu
+                </legend>
+
+                <p class="text-muted">
+                    Sélectionnez les plats proposés dans ce menu.
+                </p>
+
+                <div
+                    id="menuFoodChoices"
+                    class="row g-4"
+                ></div>
+
+                <p
+                    id="menuFoodEmptyMessage"
+                    class="text-muted d-none"
+                >
+                    Aucun plat n’est disponible.
+                </p>
+            </fieldset>
+
+            <div class="text-center mt-4">
+                <button
+                    type="submit"
+                    id="menuSubmitButton"
+                    class="btn btn-primary"
+                >
+                    Ajouter le menu
+                </button>
+
+                <button
+                    type="button"
+                    id="menuCancelEditButton"
+                    class="btn btn-secondary d-none"
+                >
+                    Annuler la modification
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <section>
+        <div
+            class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3"
+        >
+            <h2 class="text-primary mb-0">
+                Menus enregistrés
+            </h2>
+
+            <button
+                type="button"
+                id="menuRefreshButton"
+                class="btn btn-outline-primary"
+            >
+                Actualiser
+            </button>
+        </div>
+
+        <div
+            id="menuLoading"
+            class="text-center py-5"
+        >
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">
+                    Chargement...
+                </span>
+            </div>
+        </div>
+
+        <div
+            id="menuList"
+            class="row g-4 d-none"
+        ></div>
+
+        <p
+            id="menuEmptyMessage"
+            class="text-center text-muted d-none"
+        >
+            Aucun menu n’est enregistré.
+        </p>
+    </section>
+</div>
