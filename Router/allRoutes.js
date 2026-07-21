@@ -24,6 +24,8 @@ export const allRoutes = [
 
     new Route("/admin/restaurant","Gestion du restaurant","/pages/admin/restaurant.html",["admin"],"/js/admin/restaurant.js"),
 
+    new Route("/admin/foods","Gestion des plats","/pages/admin/foods.html",["admin"],"/js/admin/foods.js"),
+
 ];
 
 // Le titre s'affiche sous la forme : titre de la route - nom du site
