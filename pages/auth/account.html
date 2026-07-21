@@ -4,32 +4,121 @@
     </div>
 </div>
 
+<div class="container py-4">
+    <form id="accountForm">
+        <div
+            id="accountMessage"
+            class="alert d-none"
+            role="alert"
+        ></div>
 
+        <div class="mb-3">
+            <label
+                for="accountEmailInput"
+                class="form-label"
+            >
+                Adresse e-mail
+            </label>
 
-<div class="container p-4">
-    <form>
-        <div class="mb-3">
-            <label for="NomInput" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="NomInput" placeholder="Votre nom" value="Bento" name="Nom"> 
+            <input
+                type="email"
+                class="form-control"
+                id="accountEmailInput"
+                disabled
+            >
+
+            <div class="form-text">
+                L’adresse e-mail ne peut pas être modifiée depuis cette page.
+            </div>
         </div>
+
         <div class="mb-3">
-            <label for="PrenomInput" class="form-label">Prénom</label>
-            <input type="text" class="form-control" id="PrenomInput" placeholder="Votre prénom" value="Charlotte" name="Prenom"> 
+            <label
+                for="accountLastNameInput"
+                class="form-label"
+            >
+                Nom
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                id="accountLastNameInput"
+                minlength="2"
+                maxlength="64"
+                required
+            >
         </div>
+
         <div class="mb-3">
-          <label for="AllergieInput" class="form-label">Allergies</label>
-          <input type="text" class="form-control" id="AllergieInput" placeholder="Vos allergies (fruits de mer, arachides…)"  value="Cacahuètes" name="Allergies">  
+            <label
+                for="accountFirstNameInput"
+                class="form-label"
+            >
+                Prénom
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                id="accountFirstNameInput"
+                minlength="2"
+                maxlength="32"
+                required
+            >
         </div>
+
         <div class="mb-3">
-            <label for="NbConvivesInput" class="form-label">Nombres de convives habituel</label>
-            <input type="number" class="form-control" id="NbConvivesInput" placeholder="Combien vous êtes habituellement ?"  value="4" name="NbConvives"> 
-          </div>
+            <label
+                for="accountAllergyInput"
+                class="form-label"
+            >
+                Allergies
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                id="accountAllergyInput"
+                maxlength="255"
+                placeholder="Fruits de mer, arachides…"
+            >
+        </div>
+
+        <div class="mb-3">
+            <label
+                for="accountGuestNumberInput"
+                class="form-label"
+            >
+                Nombre habituel de convives
+            </label>
+
+            <input
+                type="number"
+                class="form-control"
+                id="accountGuestNumberInput"
+                min="1"
+                max="50"
+            >
+        </div>
+
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">Modifier vos informations</button>
-            <button type="button" class="btn btn-danger">Supprimer mon compte</button>
+            <button
+                type="submit"
+                id="accountSubmitButton"
+                class="btn btn-primary"
+            >
+                Modifier mes informations
+            </button>
         </div>
     </form>
-    <div class="text-center p-5">
-        <a href="/editPassword">Cliquez ici pour modifier votre mot de passe</a>
+
+    <div class="text-center pt-4">
+        <a
+            href="/editPassword"
+            class="btn btn-outline-primary"
+        >
+            Modifier mon mot de passe
+        </a>
     </div>
-</div>
+</div>  
