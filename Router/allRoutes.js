@@ -6,7 +6,7 @@ export const allRoutes = [
 
     new Route("/galerie","La galerie","/pages/galerie.html",[],"/js/galerie.js"),
 
-    new Route("/carte","La carte","/pages/carte.html",[]),
+    new Route("/carte","La carte","/pages/carte.html",[],"/js/carte.js"),
 
     new Route("/signin","Connexion","/pages/auth/signin.html",["disconnected"],"/js/auth/signin.js"),
 
