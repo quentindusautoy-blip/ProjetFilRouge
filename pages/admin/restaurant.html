@@ -1,0 +1,157 @@
+<div class="hero-scene text-center text-white">
+    <div class="hero-scene-content">
+        <h1>Gestion du restaurant</h1>
+    </div>
+</div>
+
+<div class="container py-4">
+    <form id="restaurantAdminForm">
+        <div
+            id="restaurantAdminMessage"
+            class="alert d-none"
+            role="alert"
+        ></div>
+
+        <div class="mb-3">
+            <label
+                for="restaurantNameInput"
+                class="form-label"
+            >
+                Nom du restaurant
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                id="restaurantNameInput"
+                minlength="2"
+                maxlength="32"
+                required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label
+                for="restaurantDescriptionInput"
+                class="form-label"
+            >
+                Description
+            </label>
+
+            <textarea
+                class="form-control"
+                id="restaurantDescriptionInput"
+                rows="5"
+                required
+            ></textarea>
+        </div>
+
+        <fieldset class="border rounded p-3 mb-3">
+            <legend class="float-none w-auto px-2 h5">
+                Service du midi
+            </legend>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label
+                        for="lunchStartInput"
+                        class="form-label"
+                    >
+                        Heure d’ouverture
+                    </label>
+
+                    <input
+                        type="time"
+                        class="form-control"
+                        id="lunchStartInput"
+                        required
+                    >
+                </div>
+
+                <div class="col-md-6">
+                    <label
+                        for="lunchEndInput"
+                        class="form-label"
+                    >
+                        Heure de fermeture
+                    </label>
+
+                    <input
+                        type="time"
+                        class="form-control"
+                        id="lunchEndInput"
+                        required
+                    >
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="border rounded p-3 mb-3">
+            <legend class="float-none w-auto px-2 h5">
+                Service du soir
+            </legend>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label
+                        for="dinnerStartInput"
+                        class="form-label"
+                    >
+                        Heure d’ouverture
+                    </label>
+
+                    <input
+                        type="time"
+                        class="form-control"
+                        id="dinnerStartInput"
+                        required
+                    >
+                </div>
+
+                <div class="col-md-6">
+                    <label
+                        for="dinnerEndInput"
+                        class="form-label"
+                    >
+                        Heure de fermeture
+                    </label>
+
+                    <input
+                        type="time"
+                        class="form-control"
+                        id="dinnerEndInput"
+                        required
+                    >
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="mb-4">
+            <label
+                for="restaurantMaxGuestInput"
+                class="form-label"
+            >
+                Capacité maximale par service
+            </label>
+
+            <input
+                type="number"
+                class="form-control"
+                id="restaurantMaxGuestInput"
+                min="1"
+                max="1000"
+                required
+            >
+        </div>
+
+        <div class="text-center">
+            <button
+                type="submit"
+                id="restaurantAdminSubmitButton"
+                class="btn btn-primary"
+            >
+                Enregistrer les modifications
+            </button>
+        </div>
+    </form>
+</div>
