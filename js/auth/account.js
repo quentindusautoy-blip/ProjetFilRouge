@@ -1,6 +1,6 @@
 (() => {
     const API_ACCOUNT_URL =
-        "http://127.0.0.1:8000/api/account/me";
+        "/backend/api/account/me";
 
     const accountForm =
         document.getElementById("accountForm");

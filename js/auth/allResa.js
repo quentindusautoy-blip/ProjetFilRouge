@@ -1,6 +1,6 @@
 (() => {
     const API_BOOKINGS_URL =
-        "http://127.0.0.1:8000/api/bookings";
+        "/backend/api/bookings";
 
     const bookingsContainer =
         document.getElementById("allReservations");

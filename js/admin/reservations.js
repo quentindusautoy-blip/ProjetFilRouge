@@ -1,5 +1,5 @@
 (() => {
-    const API_URL = "http://127.0.0.1:8000/api";
+    const API_URL = "/backend/api";
     const RESTAURANT_ID = 1;
 
     const page = document.getElementById(

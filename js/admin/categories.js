@@ -1,6 +1,6 @@
 (() => {
     const API_CATEGORIES_URL =
-        "http://127.0.0.1:8000/api/admin/categories";
+        "/backend/api/admin/categories";
 
     const form =
         document.getElementById(

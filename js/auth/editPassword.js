@@ -1,6 +1,6 @@
 (() => {
     const API_PASSWORD_URL =
-        "http://127.0.0.1:8000/api/account/password";
+        "/backend/api/account/password";
 
     const form =
         document.getElementById(

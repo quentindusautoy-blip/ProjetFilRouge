@@ -1,6 +1,6 @@
 (() => {
     const API_PICTURES_URL =
-        "http://127.0.0.1:8000/api/pictures";
+        "/backend/api/pictures";
 
     const galerieImages =
         document.getElementById("allImages");

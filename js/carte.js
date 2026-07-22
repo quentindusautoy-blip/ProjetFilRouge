@@ -1,6 +1,6 @@
 (() => {
     const API_CATALOG_URL =
-        "http://127.0.0.1:8000/api/catalog";
+        "/backend/api/catalog";
 
     const loadingContainer =
         document.getElementById(

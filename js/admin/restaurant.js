@@ -1,6 +1,6 @@
 (() => {
     const API_RESTAURANT_URL =
-        "http://127.0.0.1:8000/api/restaurant/1";
+        "/backend/api/restaurant/1";
 
     const form =
         document.getElementById(

@@ -1,5 +1,5 @@
-// EmailInput
-// PasswordInput
+// Adresse de l'API en production.
+const API_URL = "/backend/api";
 
 const mailInput = document.getElementById("EmailInput");
 const passwordInput = document.getElementById("PasswordInput");
@@ -24,7 +24,7 @@ async function checkCredentials(event) {
     };
 
     try {
-        const response = await fetch(apiUrl + "login", {
+        const response = await fetch(`${API_URL}/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -41,24 +41,37 @@ async function checkCredentials(event) {
         const result = await response.json();
 
         if (!result.apiToken) {
-            throw new Error("Le jeton d'authentification est absent.");
+            throw new Error(
+                "Le jeton d'authentification est absent."
+            );
         }
 
         if (!Array.isArray(result.roles)) {
-            throw new TypeError("La liste des rôles est absente.");
+            throw new TypeError(
+                "La liste des rôles est absente."
+            );
         }
 
         setToken(result.apiToken);
 
-        const applicationRole = result.roles.includes("ROLE_ADMIN")
+        const applicationRole = result.roles.includes(
+            "ROLE_ADMIN"
+        )
             ? "admin"
             : "client";
 
-        setCookie(RoleCookieName, applicationRole, 7);
+        setCookie(
+            RoleCookieName,
+            applicationRole,
+            7
+        );
 
         globalThis.location.replace("/");
     } catch (error) {
-        console.error("Erreur pendant la connexion :", error);
+        console.error(
+            "Erreur pendant la connexion :",
+            error
+        );
 
         mailInput.classList.add("is-invalid");
         passwordInput.classList.add("is-invalid");
