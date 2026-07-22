@@ -1,26 +1,38 @@
-on: push
+name: Deploy frontend
 
-name: 🚀 Deploy website on push
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   web-deploy:
-    name: 🎉 Deploy
+    name: Deploy to Alwaysdata
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
-      - name: 🚚 Get latest code
+      - name: Recuperer le code
         uses: actions/checkout@v5
 
-      - name: 📂 Install dependencies
+      - name: Installer Node.js
         uses: actions/setup-node@v4
         with:
-            node-version: 24
-        
-      - name: 📂 Install npm dependencies
+          node-version: 24
+
+      - name: Installer les dependances
         run: npm install
 
-      - name: 📂 Sync files
+      - name: Compiler le Sass
+        run: >
+          npx sass
+          scss/main.scss
+          scss/main.css
+          --style=compressed
+          --no-source-map
+
+      - name: Deployer sur Alwaysdata
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ftp-lequaiantique.alwaysdata.net
@@ -36,6 +48,5 @@ jobs:
             **/.git*/**
             **/.github/**
             **/node_modules/**
-            **/scss/**
-            **/sass/** 
-        
+            **/*.scss
+            **/*.map
