@@ -1,6 +1,9 @@
 import Route from "./Route.js";
 import { allRoutes, websiteName } from "./allRoutes.js";
 
+// À modifier après une importante mise à jour des scripts.
+const SCRIPT_VERSION = "20260722-2";
+
 // Route utilisée lorsqu’aucune adresse ne correspond.
 const route404 = new Route(
   "/404",
@@ -80,6 +83,22 @@ const redirectToHome = async () => {
 };
 
 /**
+ * Ajoute un numéro de version à une ressource.
+ *
+ * Exemple :
+ * /js/galerie.js
+ * devient :
+ * /js/galerie.js?v=20260722-2
+ */
+const addVersionToResource = (resourcePath) => {
+  const separator = resourcePath.includes("?")
+    ? "&"
+    : "?";
+
+  return `${resourcePath}${separator}v=${SCRIPT_VERSION}`;
+};
+
+/**
  * Supprime l’ancien JavaScript de page et charge le nouveau.
  */
 const loadPageScript = (scriptPath) => {
@@ -94,22 +113,37 @@ const loadPageScript = (scriptPath) => {
 
   return new Promise((resolve) => {
     const scriptTag = document.createElement("script");
+    const versionedScriptPath =
+      addVersionToResource(scriptPath);
 
     scriptTag.type = "text/javascript";
-    scriptTag.src = scriptPath;
+    scriptTag.src = versionedScriptPath;
     scriptTag.dataset.pageScript = "true";
 
-    scriptTag.addEventListener("load", () => {
-      resolve();
-    });
+    scriptTag.addEventListener(
+      "load",
+      () => {
+        resolve();
+      },
+      {
+        once: true,
+      }
+    );
 
-    scriptTag.addEventListener("error", () => {
-      console.error(
-        `Impossible de charger le fichier JavaScript : ${scriptPath}`
-      );
+    scriptTag.addEventListener(
+      "error",
+      () => {
+        console.error(
+          "Impossible de charger le fichier JavaScript : "
+          + versionedScriptPath
+        );
 
-      resolve();
-    });
+        resolve();
+      },
+      {
+        once: true,
+      }
+    );
 
     currentPageScript = scriptTag;
     document.body.appendChild(scriptTag);
@@ -121,7 +155,8 @@ const loadPageScript = (scriptPath) => {
  */
 const updateElementsForRoles = () => {
   if (
-    typeof globalThis.showAndhideElementsForRoles === "function"
+    typeof globalThis.showAndhideElementsForRoles ===
+    "function"
   ) {
     globalThis.showAndhideElementsForRoles();
   }
@@ -135,7 +170,8 @@ const displayLoadingError = (message) => {
 
   if (!mainPage) {
     console.error(
-      'L’élément avec l’identifiant "main-page" est introuvable.'
+      'L’élément avec l’identifiant "main-page" '
+      + "est introuvable."
     );
     return;
   }
@@ -143,7 +179,8 @@ const displayLoadingError = (message) => {
   mainPage.replaceChildren();
 
   const container = document.createElement("div");
-  container.className = "container py-5 text-center";
+  container.className =
+    "container py-5 text-center";
 
   const title = document.createElement("h1");
   title.className = "h3";
@@ -157,7 +194,12 @@ const displayLoadingError = (message) => {
   homeLink.className = "btn btn-primary";
   homeLink.textContent = "Retour à l’accueil";
 
-  container.append(title, paragraph, homeLink);
+  container.append(
+    title,
+    paragraph,
+    homeLink
+  );
+
   mainPage.appendChild(container);
 };
 
@@ -179,29 +221,37 @@ const LoadContentPage = async () => {
     return;
   }
 
-  const mainPage = document.getElementById("main-page");
+  const mainPage = document.getElementById(
+    "main-page"
+  );
 
   if (!mainPage) {
     console.error(
-      'L’élément avec l’identifiant "main-page" est introuvable.'
+      'L’élément avec l’identifiant "main-page" '
+      + "est introuvable."
     );
     return;
   }
 
   try {
-    const response = await fetch(actualRoute.pathHtml, {
-      cache: "no-store",
-    });
+    const response = await fetch(
+      actualRoute.pathHtml,
+      {
+        cache: "no-store",
+      }
+    );
 
     if (!response.ok) {
       throw new Error(
-        `Erreur HTTP ${response.status} pour ${actualRoute.pathHtml}`
+        `Erreur HTTP ${response.status} `
+        + `pour ${actualRoute.pathHtml}`
       );
     }
 
     const html = await response.text();
 
-    // Ignore la réponse si une autre page a été demandée entre-temps.
+    // Ignore la réponse si une autre page a été
+    // demandée entre-temps.
     if (loadingId !== currentLoadingId) {
       return;
     }
@@ -238,22 +288,28 @@ const LoadContentPage = async () => {
 /**
  * Navigue vers une route sans rechargement complet.
  */
-const navigateTo = async (url, replaceHistory = false) => {
+const navigateTo = async (
+  url,
+  replaceHistory = false
+) => {
   const destination = new URL(
     url,
     globalThis.location.origin
   );
 
   // Les liens externes restent gérés normalement.
-  if (destination.origin !== globalThis.location.origin) {
+  if (
+    destination.origin !==
+    globalThis.location.origin
+  ) {
     globalThis.location.href = destination.href;
     return;
   }
 
   const destinationUrl =
-    destination.pathname +
-    destination.search +
-    destination.hash;
+    destination.pathname
+    + destination.search
+    + destination.hash;
 
   if (replaceHistory) {
     globalThis.history.replaceState(
@@ -298,12 +354,12 @@ const routeEvent = (event) => {
  */
 document.addEventListener("click", (event) => {
   if (
-    event.defaultPrevented ||
-    event.button !== 0 ||
-    event.ctrlKey ||
-    event.metaKey ||
-    event.shiftKey ||
-    event.altKey
+    event.defaultPrevented
+    || event.button !== 0
+    || event.ctrlKey
+    || event.metaKey
+    || event.shiftKey
+    || event.altKey
   ) {
     return;
   }
@@ -315,9 +371,9 @@ document.addEventListener("click", (event) => {
   }
 
   if (
-    link.target === "_blank" ||
-    link.hasAttribute("download") ||
-    Object.hasOwn(link.dataset, "noRouter")
+    link.target === "_blank"
+    || link.hasAttribute("download")
+    || Object.hasOwn(link.dataset, "noRouter")
   ) {
     return;
   }
@@ -325,11 +381,11 @@ document.addEventListener("click", (event) => {
   const rawHref = link.getAttribute("href");
 
   if (
-    !rawHref ||
-    rawHref.startsWith("#") ||
-    rawHref.startsWith("mailto:") ||
-    rawHref.startsWith("tel:") ||
-    rawHref.startsWith("javascript:")
+    !rawHref
+    || rawHref.startsWith("#")
+    || rawHref.startsWith("mailto:")
+    || rawHref.startsWith("tel:")
+    || rawHref.startsWith("javascript:")
   ) {
     return;
   }
@@ -340,7 +396,8 @@ document.addEventListener("click", (event) => {
   );
 
   if (
-    destination.origin !== globalThis.location.origin
+    destination.origin !==
+    globalThis.location.origin
   ) {
     return;
   }
@@ -350,13 +407,17 @@ document.addEventListener("click", (event) => {
 });
 
 /**
- * Gestion des boutons précédent et suivant du navigateur.
+ * Gestion des boutons précédent et suivant
+ * du navigateur.
  */
-globalThis.addEventListener("popstate", () => {
-  LoadContentPage();
-});
+globalThis.addEventListener(
+  "popstate",
+  () => {
+    LoadContentPage();
+  }
+);
 
-// Fonctions rendues accessibles aux autres fichiers JavaScript.
+// Fonctions rendues accessibles aux autres fichiers.
 globalThis.route = routeEvent;
 globalThis.navigateTo = navigateTo;
 globalThis.LoadContentPage = LoadContentPage;
