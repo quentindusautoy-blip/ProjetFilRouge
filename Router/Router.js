@@ -2,7 +2,7 @@ import Route from "./Route.js";
 import { allRoutes, websiteName } from "./allRoutes.js";
 
 // À modifier après une importante mise à jour des scripts.
-const SCRIPT_VERSION = "20260722-2";
+const SCRIPT_VERSION = "20260724-1";
 
 // Route utilisée lorsqu’aucune adresse ne correspond.
 const route404 = new Route(
